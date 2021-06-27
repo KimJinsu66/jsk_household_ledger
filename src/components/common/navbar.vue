@@ -14,14 +14,14 @@
   </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .navbar {
   width: 100%;
   height: 50px;
   display: flex;
-}
-.navbar__link {
-  margin-left: 15px;
-  text-decoration: none;
+  &__link {
+    margin-left: 15px;
+    text-decoration: none;
+  }
 }
 </style>
