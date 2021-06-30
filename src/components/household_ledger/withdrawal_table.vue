@@ -22,7 +22,15 @@
           <td> {{ widthDrawal.memo }}          </td>
         </tr>
       </tbody>
-    </table>  
+    </table>
+    <nav class="withdrawal-table__pagination">
+      <ul>
+        <li>
+          <a href="/withdrawal?page=1">1</a>
+          <a href="/withdrawal?page=2">2</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -33,6 +41,7 @@ export default {
   data () {
     return {
       widthDrawals: [],
+      currentPage: this.$route.query.page,
       db: firebase.firestore()
     }
   },
@@ -43,14 +52,25 @@ export default {
     async getWidthDrawal () {
       await this.db.collection('withdrawals').where('email', '==', 'jinsu6688@gmail.com')
         .orderBy('date').get().then((querySnapshot) => {
-          querySnapshot.forEach( (doc) => {
-            this.widthDrawals.push(doc.data());
-          });
+          for (let i = this.startDataNumber(); i < this.limitDataNumber(querySnapshot.docs.length) ; i++) {
+            this.widthDrawals.push(querySnapshot.docs[i].data());
+          }
         }).catch( (error) => {
           console.log(`データの取得に失敗しました (${error})`);
         });
     },
-  }
+    limitDataNumber (dataLength) {
+      const limitNumber = this.currentPage * 10 ;
+      if (dataLength < limitNumber) return dataLength;
+
+      return limitNumber;
+    },
+    startDataNumber () {
+      if (this.currentPage === 1) return 0;
+
+      return (this.currentPage - 1) * 10;
+    }
+  },
 }
 </script>
 
@@ -83,6 +103,9 @@ export default {
         background-color: #FCCB5F;
         color: #ffffff;
       }
+    }
+    &__pagination {
+      display: flex;
     }
   }
 </style>
