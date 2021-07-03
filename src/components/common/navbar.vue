@@ -5,7 +5,7 @@
 
     <div class="navbar__links">
       <router-link to="/" class="navbar__link">HOME</router-link>
-      <router-link to="/withdrawal" class="navbar__link">지출내역</router-link>
+      <router-link to="/withdrawal?page=1" class="navbar__link">지출내역</router-link>
       <router-link to="/withdrawal/new" class="navbar__link">지출기록</router-link>
       <router-link to="/signin" class="navbar__link">로그인</router-link>
       <router-link to="/signup" class="navbar__link">회원가입</router-link>
