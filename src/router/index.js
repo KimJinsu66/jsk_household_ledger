@@ -17,7 +17,7 @@ const routes = [
     children: [
       { path: '',      name: 'WithDrawalTable',  component: WithDrawalTable },
       { path: 'new',   name: 'WithDrawalForm',   component: WithDrawalForm  },
-      { path: 'month', name: 'WithDrawalForm', component: WithDrawalForm  }
+      { path: 'month', name: 'WithDrawalForm',   component: WithDrawalForm  }
     ]
   },
 ]
