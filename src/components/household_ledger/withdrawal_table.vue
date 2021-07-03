@@ -25,9 +25,10 @@
     </table>
     <nav class="withdrawal-table__pagination">
       <ul>
-        <li>
-          <a href="/withdrawal?page=1">1</a>
-          <a href="/withdrawal?page=2">2</a>
+        <li class="withdrawal-pagination__li">
+          <div v-for="i in createPageNumbers()" v-bind:key=i>
+            <a :href=createWithdrawalPaginationUrl(i) :class="isActivePage(i)">{{ i }}</a>
+          </div>
         </li>
       </ul>
     </nav>
@@ -41,6 +42,7 @@ export default {
   data () {
     return {
       widthDrawals: [],
+      widthDrawalsLength: 1,
       currentPage: this.$route.query.page,
       db: firebase.firestore()
     }
@@ -52,6 +54,8 @@ export default {
     async getWidthDrawal () {
       await this.db.collection('withdrawals').where('email', '==', 'jinsu6688@gmail.com')
         .orderBy('date').get().then((querySnapshot) => {
+          this.widthDrawalsLength = querySnapshot.docs.length;
+
           for (let i = this.startDataNumber(); i < this.limitDataNumber(querySnapshot.docs.length) ; i++) {
             this.widthDrawals.push(querySnapshot.docs[i].data());
           }
@@ -69,6 +73,47 @@ export default {
       if (this.currentPage === 1) return 0;
 
       return (this.currentPage - 1) * 10;
+    },
+    createPageNumbers () {
+      const widthDrawalsLength = this.widthDrawalsLength;
+      const currentPage = parseInt(this.currentPage);
+      let lastPageNumber = Math.floor(widthDrawalsLength / 10);
+      let pageNumbers = [1];
+
+      lastPageNumber = lastPageNumber % 10 === 0 ? lastPageNumber : lastPageNumber + 1;
+
+      if (lastPageNumber < 2) return [1];
+
+      if (lastPageNumber < 5) {
+        for(let i = 2; i < lastPageNumber + 1; i++) {
+          pageNumbers.push(i);
+        }
+      }
+
+      if (lastPageNumber > 5) {
+        let startNumber = currentPage < 3 ? 2 : currentPage - 1; 
+        let lastNumber  = currentPage > 4 ? currentPage + 1 : currentPage + 2;
+        
+        startNumber = lastPageNumber === currentPage ? currentPage - 2 : startNumber;
+        lastNumber  = lastPageNumber === currentPage ? currentPage : lastNumber;
+        
+        for(let i = startNumber; i < lastNumber; i++) {
+          pageNumbers.push(i);    
+        }
+
+        pageNumbers.push(lastPageNumber);
+      }
+      
+      return pageNumbers;
+    },
+    createWithdrawalPaginationUrl (i) {
+      return `/withdrawal?page=${i}`;
+    },
+    isActivePage (page) {
+      console.log(page);
+      if (parseInt(this.currentPage) === page) return {
+        'withdrawal-pagination__link__active': true
+      };
     }
   },
 }
@@ -104,8 +149,20 @@ export default {
         color: #ffffff;
       }
     }
-    &__pagination {
-      display: flex;
+    &-pagination {
+      &__li {
+        display: flex;
+        justify-content: flex-end;
+        div {
+          // margin-right: 5px;
+          font-size: 1.3rem;
+          padding:10px;
+        }
+      }
+      &__link__active {
+        color: lighten(#0000ff, 20%);
+        font-weight: bold;
+      }
     }
   }
 </style>
