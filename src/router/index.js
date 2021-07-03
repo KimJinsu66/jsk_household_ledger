@@ -15,9 +15,9 @@ const routes = [
   { path: '/signup', name: 'SignUp', component: SignUp },
   { path: '/withdrawal', name: 'WithDrawal', component: WithDrawal,
     children: [
-      { path: '',    name: 'WithDrawalTable', component: WithDrawalTable },
-      { path: 'new', name: 'WithDrawalForm',  component: WithDrawalForm  },
-      { path: 'month', name: 'WithDrawalForm',  component: WithDrawalForm  }
+      { path: '',      name: 'WithDrawalTable',  component: WithDrawalTable },
+      { path: 'new',   name: 'WithDrawalForm',   component: WithDrawalForm  },
+      { path: 'month', name: 'WithDrawalForm', component: WithDrawalForm  }
     ]
   },
 ]
