@@ -4,6 +4,8 @@ import SignUp from '../components/sessions/sign_up.vue'
 import SignIn from '../components/sessions/sign_in.vue'
 import WithDrawalForm from '../components/household_ledger/withdrawal_form.vue'
 import WithDrawalTable from '../components/household_ledger/withdrawal_table.vue'
+import WithDrawalMonthTable from '../components/household_ledger/withdrawal_month_table.vue'
+import WithDrawalCalendar from '../components/household_ledger/withdrawal_calendar.vue'
 import WithDrawal from '@/views/withdrawal.vue'
 
 import firebase from 'firebase'
@@ -15,9 +17,10 @@ const routes = [
   { path: '/signup', name: 'SignUp', component: SignUp },
   { path: '/withdrawal', name: 'WithDrawal', component: WithDrawal,
     children: [
-      { path: '',      name: 'WithDrawalTable',  component: WithDrawalTable },
-      { path: 'new',   name: 'WithDrawalForm',   component: WithDrawalForm  },
-      { path: 'month', name: 'WithDrawalForm',   component: WithDrawalForm  }
+      { path: '',      name: 'WithDrawalTable', component: WithDrawalTable      },
+      { path: 'new',   name: 'WithDrawalForm',  component: WithDrawalForm       },
+      { path: 'month', name: 'WithDrawalMonthTable', component: WithDrawalMonthTable },
+      { path: 'calendar', name: 'WithDrawalCalendar', component: WithDrawalCalendar }
     ]
   },
 ]
